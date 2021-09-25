@@ -4,6 +4,7 @@ import torchvision
 import torch.nn as nn
 from torchvision import transforms
 from torchvision.utils import save_image
+from configparser import ConfigParser
 
 device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -15,7 +16,7 @@ batch_size = 100
 sample_dir ='samples'
 
 
-def main():
+def main(config):
 
     if not os.path.exists(sample_dir):
         os.makedirs(sample_dir)
@@ -27,7 +28,7 @@ def main():
 
     D = nn.Sequential(
         nn.Linear(image_size,hidden_size),
-        nn.LeakyReLU(0.2),
+        nn.LeakyReLU(0.2,),
         nn.Linear(hidden_size, hidden_size),
         nn.LeakyReLU(0.2),
         nn.Linear(hidden_size,1),
@@ -100,7 +101,7 @@ def main():
                           real_score.mean().item(), fake_score.mean().item()))
 
         if (epoch) == 0:
-            iamges = images.reshape(images.size(0), 1, 28, 28)
+            images = images.reshape(images.size(0), 1, 28, 28)
             save_image(denorm(images), os.path.join(sample_dir,'real_images.png'))
     
         fake_images = fake_images.reshape(fake_images.size(0),1,28,28)
@@ -110,4 +111,6 @@ def main():
     torch.save(D.state_dict(), 'D.ckpt')
 
 if __name__ == '__main__':
-    main()
+    config = ConfigParser()
+    config.read('parser.ini')
+    main(config)
