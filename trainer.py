@@ -17,10 +17,10 @@ def train(data_loader,D,G,d_optimizer,g_optimizer,criterion,config,device = torc
 
     for epoch in range(num_epochs):
         for i, (images, _) in enumerate(data_loader):
-            images = images.reshpae(batch_size, -1).to(device)
+            images = images.reshape(batch_size, -1).to(device)
             
             real_labels = torch.ones(batch_size, 1).to(device)
-            fake_labels = torch.zeroes(batch_size, 1).to(device)
+            fake_labels = torch.zeros(batch_size, 1).to(device)
 
             outputs = D(images)
             d_loss_real = criterion(outputs, real_labels)
