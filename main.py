@@ -53,7 +53,7 @@ def main():
         out = (x+1) / 2
         return out.clamp(0,1)
     
-    def reset_grad(x):
+    def reset_grad():
         d_optimizer.zero_grad()
         g_optimizer.zero_grad()
     
