@@ -1,9 +1,8 @@
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
+
 
 class Generator(nn.Module):
-    def __init__(self.latent_size,self.hidden_size,self.image_size):
+    def __init__(latent_size,hidden_size,image_size):
         super().__init()
         
         self.G = nn.Sequential(
@@ -15,15 +14,15 @@ class Generator(nn.Module):
             nn.Tanh()
         )
     def forward(self, x):
-        img=self.Generator(x)
-        return img
+        output=self.G(x)
+        return output
 
 
 
 class Discriminator(nn.Module):
-    def __init__(self.latent_size,self.hidden_size,self.image_size):
+    def __init__(latent_size,hidden_size,image_size):
         super().__init()
-        D = nn.Sequential(
+        self.D = nn.Sequential(
             nn.Linear(image_size,hidden_size),
             nn.LeakyReLU(0.2),
             nn.Linear(hidden_size, hidden_size),
@@ -32,6 +31,6 @@ class Discriminator(nn.Module):
             nn.Sigmoid()
         )
     def forward(self, x):
-        img=self.Discriminator(x)
-        return img
+        output=self.D(x)
+        return output
 
